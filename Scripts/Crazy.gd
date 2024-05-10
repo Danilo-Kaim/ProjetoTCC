@@ -82,7 +82,7 @@ func getAngleEnemy() -> float:
 func attAngle():
 	var absoluteBearing = rotation + getAngleEnemy()
 	var gunTurnAngle = rad_to_deg(absoluteBearing) - rotation_degrees		
-	if abs(gunTurnAngle - rotation_degrees) < 1:
+	if abs(gunTurnAngle - rotation_degrees) < 3:
 		tiro.atirar(rotation_degrees)
 
 
