@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://c0fx3tsw5yi3b"]
+
+[ext_resource type="PackedScene" uid="uid://cwmptjpks7gyr" path="res://Cenas/Templates/PlayerTemplate.tscn" id="1_f2ydo"]
+[ext_resource type="Script" path="res://Scripts/Corners.gd" id="2_6jo6d"]
+[ext_resource type="Texture2D" uid="uid://b1m5v0o1xn0da" path="res://Assets/icon.svg" id="2_b8dsd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8b0nx"]
+size = Vector2(108, 108)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d7him"]
+size = Vector2(110, 111)
+
+[node name="Corners" instance=ExtResource("1_f2ydo")]
+scale = Vector2(0.5, 0.5)
+collision_mask = 3
+script = ExtResource("2_6jo6d")
+speed = 100
+
+[node name="Collision" parent="." index="0"]
+position = Vector2(0, 0)
+shape = SubResource("RectangleShape2D_8b0nx")
+
+[node name="Texture" parent="." index="1"]
+modulate = Color(0.340757, 0.464524, 0.873049, 1)
+self_modulate = Color(0.875612, 0.906536, 0.984059, 1)
+texture = ExtResource("2_b8dsd")
+
+[node name="TiroPos" parent="." index="2"]
+position = Vector2(50, 0)
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_d7him")
+debug_color = Color(0.770165, 0.443926, 0.0634745, 0.42)
+
+[node name="BateuParede" type="RayCast2D" parent="." index="4"]
+target_position = Vector2(0, 20)
+
+[node name="TempoTiro" type="Timer" parent="." index="5"]
+wait_time = 0.75
+autostart = true
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="timeout" from="TempoTiro" to="." method="_on_tempo_tiro_timeout"]

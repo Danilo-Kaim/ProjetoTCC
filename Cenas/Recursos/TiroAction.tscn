@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://vlwtk277dgoe"]
+
+[ext_resource type="Script" path="res://Scripts/TiroAction.gd" id="1_uwfli"]
+[ext_resource type="PackedScene" uid="uid://xnxflacmjpll" path="res://Cenas/Recursos/Bala.tscn" id="2_xd2dt"]
+[ext_resource type="Texture2D" uid="uid://bc0ut8vbs0myr" path="res://Assets/Faca.png" id="3_q7uc4"]
+
+[node name="TiroPos" type="Marker2D"]
+script = ExtResource("1_uwfli")
+tiroCena = ExtResource("2_xd2dt")
+
+[node name="TiroDelay" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("3_q7uc4")
+
+[connection signal="timeout" from="TiroDelay" to="." method="_on_tiro_delay_timeout"]

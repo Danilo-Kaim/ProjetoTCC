@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://csqpjqoexuis"]
+
+[ext_resource type="Script" path="res://Scripts/NavigationAgent2d.gd" id="1_8ila1"]
+
+[node name="NavigationAgent2D" type="NavigationAgent2D"]
+debug_enabled = true
+script = ExtResource("1_8ila1")
+
+[node name="MakePath" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[connection signal="timeout" from="MakePath" to="." method="_on_make_path_timeout"]

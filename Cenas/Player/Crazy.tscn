@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://bxqqsnunhumfq"]
+
+[ext_resource type="PackedScene" uid="uid://cwmptjpks7gyr" path="res://Cenas/Templates/PlayerTemplate.tscn" id="1_mv0i7"]
+[ext_resource type="Texture2D" uid="uid://b1m5v0o1xn0da" path="res://Assets/icon.svg" id="2_1nwcc"]
+[ext_resource type="Script" path="res://Scripts/Crazy.gd" id="2_8sm40"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4222h"]
+size = Vector2(106, 108)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kghg1"]
+size = Vector2(108, 110)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qftqr"]
+size = Vector2(128, 128)
+
+[node name="Crazy" instance=ExtResource("1_mv0i7")]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("2_8sm40")
+
+[node name="Collision" parent="." index="0" groups=["timer"]]
+visible = false
+position = Vector2(0, 0)
+shape = SubResource("RectangleShape2D_4222h")
+
+[node name="Texture" parent="." index="1" groups=["timer"]]
+modulate = Color(0.905882, 0.105882, 0.0705882, 1)
+texture = ExtResource("2_1nwcc")
+
+[node name="TiroPos" parent="." index="2" groups=["timer"]]
+position = Vector2(50, 0)
+
+[node name="Hurtbox" parent="." index="3" groups=["timer"]]
+visible = false
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource("RectangleShape2D_kghg1")
+debug_color = Color(0.904646, 0.163825, 0.218737, 0.419608)
+
+[node name="BateuParede" type="Area2D" parent="." index="4" groups=["timer"]]
+visible = false
+collision_layer = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BateuParede" index="0"]
+shape = SubResource("RectangleShape2D_qftqr")
+debug_color = Color(0.842318, 0.248861, 0.721987, 0.42)
+
+[node name="ReseteTween" type="Timer" parent="." index="5"]
+wait_time = 4.5
+autostart = true
+
+[connection signal="body_entered" from="BateuParede" to="." method="_on_bateu_parede_body_entered"]
+[connection signal="timeout" from="ReseteTween" to="." method="_on_resete_tween_timeout"]

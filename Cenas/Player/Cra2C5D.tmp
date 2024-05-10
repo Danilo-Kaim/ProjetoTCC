@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://bxqqsnunhumfq"]
+
+[ext_resource type="PackedScene" uid="uid://cwmptjpks7gyr" path="res://Cenas/Templates/PlayerTemplate.tscn" id="1_mv0i7"]
+[ext_resource type="Texture2D" uid="uid://b1m5v0o1xn0da" path="res://Assets/icon.svg" id="2_1nwcc"]
+[ext_resource type="Script" path="res://Scripts/Crazy.gd" id="2_8sm40"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4222h"]
+size = Vector2(106, 108)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kghg1"]
+size = Vector2(108, 110)
+
+[node name="Crazy" instance=ExtResource("1_mv0i7")]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("2_8sm40")
+
+[node name="Collision" parent="." index="0"]
+position = Vector2(0, 0)
+shape = SubResource("RectangleShape2D_4222h")
+
+[node name="Texture" parent="." index="1"]
+texture = ExtResource("2_1nwcc")
+
+[node name="TiroPos" parent="." index="2"]
+position = Vector2(50, 0)
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource("RectangleShape2D_kghg1")
+debug_color = Color(0.904646, 0.163825, 0.218737, 0.419608)
+
+[node name="BateuParede" type="RayCast2D" parent="." index="4"]
+target_position = Vector2(78, 0)
