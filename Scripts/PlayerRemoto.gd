@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-@export var speed: int
-@export var hp: int
+@export var speed: int = 300
+@export var hp: int = 10
 @onready var tiro = $TiroPos as Marker2D
 var  input_vector = Vector2.ZERO
 var angle = 0

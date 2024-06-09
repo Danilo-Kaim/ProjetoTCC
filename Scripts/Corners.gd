@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
 
-@export var speed: int
-@export var hp: int
+@export var speed: int = 300
+@export var hp: int = 10
 @export_range(1,4) var corner = 1
 @export var enemy: CharacterBody2D
 @onready var tiro = $TiroPos as Marker2D

@@ -5,10 +5,10 @@
 [ext_resource type="Texture2D" uid="uid://b1m5v0o1xn0da" path="res://Assets/icon.svg" id="2_b8dsd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8b0nx"]
-size = Vector2(108, 108)
+size = Vector2(116, 116)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d7him"]
-size = Vector2(110, 111)
+size = Vector2(120, 120)
 
 [node name="Corners" instance=ExtResource("1_f2ydo")]
 scale = Vector2(0.5, 0.5)
@@ -17,7 +17,6 @@ script = ExtResource("2_6jo6d")
 speed = 100
 
 [node name="Collision" parent="." index="0"]
-position = Vector2(0, 0)
 shape = SubResource("RectangleShape2D_8b0nx")
 
 [node name="Texture" parent="." index="1"]
@@ -29,7 +28,6 @@ texture = ExtResource("2_b8dsd")
 position = Vector2(50, 0)
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_d7him")
 debug_color = Color(0.770165, 0.443926, 0.0634745, 0.42)
 

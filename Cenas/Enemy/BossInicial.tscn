@@ -27,7 +27,7 @@ position = Vector2(-2, 3)
 shape = SubResource("RectangleShape2D_64xe7")
 debug_color = Color(0.251806, 0.525532, 0.93707, 0.42)
 
-[node name="Sprite2D" parent="." index="1"]
+[node name="Texture" parent="." index="1"]
 texture = ExtResource("2_4hqg2")
 hframes = 3
 

@@ -6,7 +6,6 @@
 collision_layer = 2
 
 [node name="Collision" type="CollisionShape2D" parent="."]
-position = Vector2(0, 1)
 
 [node name="Texture" type="Sprite2D" parent="."]
 

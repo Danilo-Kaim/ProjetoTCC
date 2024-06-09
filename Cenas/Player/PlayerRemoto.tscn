@@ -5,10 +5,10 @@
 [ext_resource type="Script" path="res://Scripts/PlayerRemoto.gd" id="2_l6bnj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xxmav"]
-size = Vector2(122, 122)
+size = Vector2(116, 116)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qyo86"]
-size = Vector2(126, 126)
+size = Vector2(120, 120)
 
 [node name="PlayerRemoto" groups=["Player"] instance=ExtResource("1_6w72o")]
 scale = Vector2(0.5, 0.5)
@@ -16,17 +16,16 @@ script = ExtResource("2_l6bnj")
 speed = 300
 
 [node name="Collision" parent="." index="0"]
-position = Vector2(1, -1)
 shape = SubResource("RectangleShape2D_xxmav")
 
 [node name="Texture" parent="." index="1"]
+visible = false
 texture = ExtResource("2_h8v30")
 
 [node name="TiroPos" parent="." index="2"]
 position = Vector2(50, 0)
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
-position = Vector2(1, -1)
 shape = SubResource("RectangleShape2D_qyo86")
 debug_color = Color(0.658935, 0.514523, 0.0592575, 0.42)
 

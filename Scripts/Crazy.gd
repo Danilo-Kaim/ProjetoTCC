@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-@export var speed: int
-@export var hp: int
+@export var speed: int = 300
+@export var hp: int = 10
 @export_range(1,4) var directionInicial: int = 2
 @export var enemy: CharacterBody2D
 @onready var collision = $Collision as CollisionShape2D
@@ -61,7 +61,7 @@ func repairRotation(rot):
 	"""for i in get_children():
 		if i in get_tree().get_nodes_in_group("timer"):
 			i.rotation = -rot
-	"""				
+	"""					
 	collision.rotation = -rot
 	texture.rotation = -rot
 	tiro.rotation = -rot

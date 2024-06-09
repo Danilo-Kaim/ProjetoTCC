@@ -5,10 +5,10 @@
 [ext_resource type="Script" path="res://Scripts/Crazy.gd" id="2_8sm40"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4222h"]
-size = Vector2(106, 108)
+size = Vector2(116, 116)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kghg1"]
-size = Vector2(108, 110)
+size = Vector2(120, 120)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qftqr"]
 size = Vector2(128, 128)
@@ -18,8 +18,6 @@ scale = Vector2(0.5, 0.5)
 script = ExtResource("2_8sm40")
 
 [node name="Collision" parent="." index="0" groups=["timer"]]
-visible = false
-position = Vector2(0, 0)
 shape = SubResource("RectangleShape2D_4222h")
 
 [node name="Texture" parent="." index="1" groups=["timer"]]
@@ -30,14 +28,12 @@ texture = ExtResource("2_1nwcc")
 position = Vector2(50, 0)
 
 [node name="Hurtbox" parent="." index="3" groups=["timer"]]
-visible = false
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
 shape = SubResource("RectangleShape2D_kghg1")
 debug_color = Color(0.904646, 0.163825, 0.218737, 0.419608)
 
 [node name="BateuParede" type="Area2D" parent="." index="4" groups=["timer"]]
-visible = false
 collision_layer = 256
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BateuParede" index="0"]
