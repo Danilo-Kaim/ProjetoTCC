@@ -1,8 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cigr6im0hpdmn"]
+[gd_scene load_steps=6 format=3 uid="uid://b8030xi8bi3on"]
 
-[ext_resource type="PackedScene" uid="uid://cwmptjpks7gyr" path="res://Cenas/Templates/PlayerTemplate.tscn" id="1_8bxug"]
-[ext_resource type="Texture2D" uid="uid://b1m5v0o1xn0da" path="res://Assets/icon.svg" id="2_8nsnx"]
-[ext_resource type="Script" path="res://Scripts/Fire.gd" id="2_ylbs2"]
+[ext_resource type="PackedScene" uid="uid://cwmptjpks7gyr" path="res://Cenas/Templates/PlayerTemplate.tscn" id="1_m6tum"]
+[ext_resource type="Script" path="res://Scripts/TrackFire.gd" id="2_21k54"]
+[ext_resource type="Texture2D" uid="uid://b1m5v0o1xn0da" path="res://Assets/icon.svg" id="3_lo4ds"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pmdt0"]
 size = Vector2(118, 118)
@@ -10,14 +10,15 @@ size = Vector2(118, 118)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s6tnd"]
 size = Vector2(120, 120)
 
-[node name="Fire" instance=ExtResource("1_8bxug")]
-script = ExtResource("2_ylbs2")
+[node name="TrackFire" instance=ExtResource("1_m6tum")]
+modulate = Color(0.539663, 0.539663, 0.539663, 1)
+script = ExtResource("2_21k54")
 
 [node name="Collision" parent="." index="0"]
 shape = SubResource("RectangleShape2D_pmdt0")
 
 [node name="Texture" parent="." index="1"]
-texture = ExtResource("2_8nsnx")
+texture = ExtResource("3_lo4ds")
 
 [node name="TiroPos" parent="." index="2"]
 position = Vector2(50, 0)
@@ -27,8 +28,8 @@ shape = SubResource("RectangleShape2D_s6tnd")
 debug_color = Color(0.689458, 0.300903, 0.981865, 0.42)
 
 [node name="Timer" type="Timer" parent="." index="4"]
-wait_time = 0.05
-one_shot = true
+wait_time = 0.75
+autostart = true
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

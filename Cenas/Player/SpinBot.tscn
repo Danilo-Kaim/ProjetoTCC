@@ -1,8 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dwh3f62lqvf41"]
+[gd_scene load_steps=6 format=3 uid="uid://cnyj38a4c8iou"]
 
-[ext_resource type="PackedScene" uid="uid://cwmptjpks7gyr" path="res://Cenas/Templates/PlayerTemplate.tscn" id="1_6w72o"]
-[ext_resource type="Texture2D" uid="uid://b1m5v0o1xn0da" path="res://Assets/icon.svg" id="2_h8v30"]
-[ext_resource type="Script" path="res://Scripts/PlayerRemoto.gd" id="2_l6bnj"]
+[ext_resource type="PackedScene" uid="uid://cwmptjpks7gyr" path="res://Cenas/Templates/PlayerTemplate.tscn" id="1_4uqh6"]
+[ext_resource type="Script" path="res://Scripts/SpinBot.gd" id="2_eyha4"]
+[ext_resource type="Texture2D" uid="uid://b1m5v0o1xn0da" path="res://Assets/icon.svg" id="3_v5yft"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xxmav"]
 size = Vector2(116, 116)
@@ -10,14 +10,16 @@ size = Vector2(116, 116)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qyo86"]
 size = Vector2(120, 120)
 
-[node name="PlayerRemoto" instance=ExtResource("1_6w72o")]
-script = ExtResource("2_l6bnj")
+[node name="SpinBot" instance=ExtResource("1_4uqh6")]
+modulate = Color(1, 0.0705882, 1, 1)
+script = ExtResource("2_eyha4")
 
 [node name="Collision" parent="." index="0"]
 shape = SubResource("RectangleShape2D_xxmav")
 
 [node name="Texture" parent="." index="1"]
-texture = ExtResource("2_h8v30")
+modulate = Color(0.361824, 0.0739487, 0.597206, 1)
+texture = ExtResource("3_v5yft")
 
 [node name="TiroPos" parent="." index="2"]
 position = Vector2(50, 0)

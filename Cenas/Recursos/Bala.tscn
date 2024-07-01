@@ -9,7 +9,7 @@ size = Vector2(26, 13)
 [node name="Bala" type="Area2D" groups=["Bala"]]
 position = Vector2(284, 127)
 collision_layer = 8
-collision_mask = 5
+collision_mask = 33
 script = ExtResource("1_4hovf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -20,4 +20,5 @@ shape = SubResource("RectangleShape2D_d0wpe")
 rotation = 1.5708
 texture = ExtResource("2_sp75c")
 
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

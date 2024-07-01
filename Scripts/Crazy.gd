@@ -57,11 +57,7 @@ func turn():
 	angle -= deg_to_rad(180)
 	tween.tween_property(self,"rotation",angle,1.5).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_LINEAR)
 	
-func repairRotation(rot):
-	"""for i in get_children():
-		if i in get_tree().get_nodes_in_group("timer"):
-			i.rotation = -rot
-	"""					
+func repairRotation(rot):			
 	collision.rotation = -rot
 	texture.rotation = -rot
 	tiro.rotation = -rot
@@ -81,10 +77,19 @@ func getAngleEnemy() -> float:
  
 func attAngle():
 	var absoluteBearing = rotation + getAngleEnemy()
-	var gunTurnAngle = rad_to_deg(absoluteBearing) - rotation_degrees		
-	if abs(gunTurnAngle - rotation_degrees) < 3:
-		tiro.atirar(rotation_degrees)
-
+	var gunTurnAngle = rad_to_deg(absoluteBearing) - rotation_degrees
+	var aux1 = gunTurnAngle
+	if aux1 < 0:
+		aux1 = 180 + aux1
+		aux1 = 180 + aux1		
+	var aux2 = rotation_degrees
+	if aux2 < 0:
+		aux2 = 180 + aux2
+		aux2 = 180 + aux2
+	if abs(aux1 - aux2) < 3:
+		tiro.atirar(aux2,self)
+func tomarDano():
+	pass
 
 
 
@@ -95,3 +100,10 @@ func _on_bateu_parede_body_entered(_body):
 
 func _on_resete_tween_timeout():
 	turn()
+
+
+func _on_hurtbox_area_entered(area):
+	if area.has_method("getParent"):
+		if area.getParent() != self:
+			print("Crazy Tomou Dano")
+	tomarDano()

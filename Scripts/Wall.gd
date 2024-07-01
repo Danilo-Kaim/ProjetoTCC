@@ -3,29 +3,18 @@ extends CharacterBody2D
 
 @export var speed: int = 300
 @export var hp: int = 10
-@export_range(1,4) var corner = 1
+@export_range(1,4) var wall = 1
 @export var enemy: CharacterBody2D
 @onready var tiro = $TiroPos as Marker2D
 @onready var bateuParede = $BateuParede as RayCast2D
 var  input_vector = Vector2.ZERO
 var angle = 0
-var nCollision = 0
-var canShoot = false
-var canMove = true
+var angleAux = 0 
+var rotacionando = false
+var primeiraRot = true
 
 func _ready():
-	setter()
-
-func _physics_process(_delta):
-	if canMove:
-		goCorners()
-	else:
-		input_vector = Vector2.ZERO	
-	velocity =  speed * input_vector 
-	move_and_slide()
-
-func setter():
-	match corner:
+	match wall:
 		1:
 			bateuParede.target_position = Vector2(0,-20)
 			bateuParede.position = Vector2(0,-40)
@@ -48,17 +37,59 @@ func setter():
 			angle = 180
 	moveTiro()
 
-func goCorners():
-	if bateuParede.is_colliding():
-		nCollision += 1
-	if nCollision == 1:
-		corner -= 1
-		if corner == 0:
-			corner = 4	
+func _physics_process(_delta):
+	if angle < 0:
+		angle = 360 - angle
+	if rotacionando and angle != angleAux:
+		input_vector = Vector2.ZERO
+		rotacionar()
+	if angle == angleAux:
+		rotacionando = false
 		setter()
-		nCollision += 1
-	if nCollision > 2:
-		canShoot = true			
+	goWall()
+	attAngle()
+	velocity =  speed * input_vector 
+	move_and_slide()
+func rotacionar():
+	angle -= 1
+	moveTiro()
+
+func setter():
+	match wall:
+		1:
+			bateuParede.target_position = Vector2(0,-20)
+			bateuParede.position = Vector2(0,-40)
+			input_vector = Vector2.UP
+		2:
+			bateuParede.target_position = Vector2(20,0)
+			bateuParede.position = Vector2(40,0)
+			input_vector = Vector2.RIGHT
+		3:
+			bateuParede.target_position = Vector2(0,20)
+			bateuParede.position = Vector2(0,40)
+			input_vector = Vector2.DOWN
+		4:
+			bateuParede.target_position = Vector2(-20,0)
+			bateuParede.position = Vector2(-40,0)
+			input_vector = Vector2.LEFT	
+	bateuParede.enabled = true
+
+func goWall():
+	if bateuParede.is_colliding():
+		wall -= 1
+		if wall == 0:
+			wall = 4
+		bateuParede.enabled = false
+		if primeiraRot:
+			angleAux = angle - 180
+			primeiraRot = false
+			if angleAux < 0:
+				angleAux = 180 
+		else:	
+			angleAux = angle - 90
+		if angleAux < 0:
+			angleAux = 270
+		rotacionando = true				
 	
 
 func moveTiro():
@@ -79,28 +110,12 @@ func attAngle():
 	if aux < 0:
 		aux = 180 + aux
 		aux = 180 + aux
-	if abs(aux - angle) < 10 and nCollision < 3:
-		canMove = false
-		canShoot = true
-		angle = gunTurnAngle 	
-	else:
-		if nCollision > 2:
-			canMove = false
-			angle = gunTurnAngle
-			moveTiro()		
-		else:
-			canMove = true
-			canShoot = false	
+	if abs(aux - angle) < 2:
+		tiro.atirar(angle,self)	
 
 func _on_hurtbox_area_entered(area):
 	if area.has_method("getParent"):
 		if area.getParent() != self:
-			print("Corners Tomou Dano")
+			print("Wall Tomou Dano")
 
 
-func _on_tempo_tiro_timeout():
-	attAngle()
-	if canShoot:
-		tiro.atirar(angle,self)
-	if nCollision < 3:
-		setter()	

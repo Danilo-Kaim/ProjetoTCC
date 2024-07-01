@@ -5,13 +5,13 @@ extends Node2D
 @onready var tiroDelay = $TiroDelay as Timer
 var podeAtirar = true
 		
-func atirar(rot):
+func atirar(rot,par):
 	if podeAtirar:
 		var tiro = tiroCena.instantiate()
 		get_tree().root.call_deferred("add_child",tiro)
 		tiro.setPos(global_position)
 		tiro.setRotation(rot)
-		
+		tiro.setParent(par)
 		cooldown()
 		tiroDelay.start()
 	

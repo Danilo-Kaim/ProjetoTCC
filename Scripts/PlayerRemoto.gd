@@ -17,7 +17,7 @@ func controle():
 	input_vector.x = Input.get_action_strength("Right") - Input.get_action_strength("Left")
 	input_vector.y = Input.get_action_strength("Down") - Input.get_action_strength("Up")	 
 	if Input.is_action_just_pressed("Atirar"):
-		tiro.atirar(angle)
+		tiro.atirar(angle,self)
 		
 func moveTiro():
 	var raio = 50
@@ -36,6 +36,17 @@ func attAngle():
 	angle = gunTurnAngle
 	moveTiro()
 
+
 func _on_hurtbox_area_entered(area):
-	if area.is_in_group('Enemy'):
-		print("Player tomou dano!")
+	if area.has_method("getParent"):
+		if area.getParent() != self:
+			print("Player Tomou Dano")
+
+
+
+
+
+
+
+
+
