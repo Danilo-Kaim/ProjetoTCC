@@ -15,7 +15,6 @@ var angle = 0
 
 func _ready():
 	turn()
-	setter()
 func _physics_process(_delta):
 	crazy()
 	move_and_slide()
@@ -23,14 +22,14 @@ func _physics_process(_delta):
 func setter():
 	match directionInicial:
 		1:
-			angle = -90
+			rotation = deg_to_rad(270)
 		2:
-			angle = 0
+			rotation = deg_to_rad(0)
 		3:
-			angle = 90
+			rotation = deg_to_rad(90)
 		4:
-			angle = 180
-	moveTiro()
+			rotation = deg_to_rad(180)
+	repairRotation(rotation)
 func crazy():	
 	attAngle()
 	match directionInicial:

@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://c4yiikcwshx24"]
+
+[ext_resource type="PackedScene" uid="uid://cwmptjpks7gyr" path="res://Cenas/Templates/PlayerTemplate.tscn" id="1_y8hum"]
+[ext_resource type="Script" path="res://Scripts/VelociRobot.gd" id="2_xaoo8"]
+[ext_resource type="Texture2D" uid="uid://b1m5v0o1xn0da" path="res://Assets/icon.svg" id="3_vfqm7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pmdt0"]
+size = Vector2(118, 118)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s6tnd"]
+size = Vector2(120, 120)
+
+[node name="VelociRobot" instance=ExtResource("1_y8hum")]
+modulate = Color(0.539663, 0.539663, 0.539663, 1)
+script = ExtResource("2_xaoo8")
+
+[node name="Collision" parent="." index="0"]
+shape = SubResource("RectangleShape2D_pmdt0")
+
+[node name="Texture" parent="." index="1"]
+modulate = Color(0.352941, 0.568627, 0.415686, 1)
+texture = ExtResource("3_vfqm7")
+
+[node name="TiroPos" parent="." index="2"]
+position = Vector2(50, 0)
+
+[node name="Hurtbox" parent="." index="3"]
+modulate = Color(0.243137, 0.427451, 0.247059, 1)
+collision_mask = 73
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource("RectangleShape2D_s6tnd")
+debug_color = Color(0.689458, 0.300903, 0.981865, 0.42)
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="body_entered" from="Hurtbox" to="." method="_on_hurtbox_body_entered"]

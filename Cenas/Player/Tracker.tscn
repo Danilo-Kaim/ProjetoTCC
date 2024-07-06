@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://3rcnywfb26gi"]
+
+[ext_resource type="PackedScene" uid="uid://cwmptjpks7gyr" path="res://Cenas/Templates/PlayerTemplate.tscn" id="1_gu2nh"]
+[ext_resource type="Script" path="res://Scripts/Tracker.gd" id="2_s7c2b"]
+[ext_resource type="Texture2D" uid="uid://b1m5v0o1xn0da" path="res://Assets/icon.svg" id="3_xglsh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pmdt0"]
+size = Vector2(118, 118)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s6tnd"]
+size = Vector2(120, 120)
+
+[node name="Tracker" instance=ExtResource("1_gu2nh")]
+modulate = Color(0.539663, 0.539663, 0.539663, 1)
+script = ExtResource("2_s7c2b")
+
+[node name="Collision" parent="." index="0"]
+shape = SubResource("RectangleShape2D_pmdt0")
+
+[node name="Texture" parent="." index="1"]
+modulate = Color(0.0313726, 1, 0.0862745, 1)
+texture = ExtResource("3_xglsh")
+
+[node name="TiroPos" parent="." index="2"]
+position = Vector2(50, 0)
+
+[node name="Hurtbox" parent="." index="3"]
+modulate = Color(0.662159, 0.510122, 0.103642, 1)
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource("RectangleShape2D_s6tnd")
+debug_color = Color(0.689458, 0.300903, 0.981865, 0.42)
+
+[node name="Timer" type="Timer" parent="." index="4"]
+one_shot = true
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

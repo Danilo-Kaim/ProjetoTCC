@@ -133,6 +133,6 @@ navigation_layer_0/layers = 1
 sources/0 = SubResource("TileSetAtlasSource_e308s")
 sources/1 = SubResource("TileSetAtlasSource_enpk0")
 
-[node name="ArenaTemplate" type="TileMap"]
+[node name="ArenaTemplate" type="TileMap" groups=["Fundo"]]
 tile_set = SubResource("TileSet_7fjn1")
 format = 2

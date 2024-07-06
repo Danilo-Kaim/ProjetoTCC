@@ -34,8 +34,7 @@ func setter():
 	
 func fire(rot):
 	speed = 8000
-	var dir = rot + 90
-	rotation_degrees = dir
+	rotation = deg_to_rad(rot)
 	if up:
 		velocity = transform.x  * speed
 	else:
@@ -81,5 +80,9 @@ func _on_timer_timeout():
 func _on_hurtbox_area_entered(area):
 	if area.has_method("getParent"):
 		if area.getParent() != self:
-			fire(area.rotation_degrees)
+			var x = area.rotation_degrees
+			if x < 0:
+				x = 180 + x
+				x = 180 + x
+			fire(x+90)
 			print("Fire Tomou Dano")

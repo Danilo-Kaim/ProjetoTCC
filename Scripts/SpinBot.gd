@@ -48,7 +48,6 @@ func attAngle():
 		aux = 180 + aux
 	if abs(aux - angle) < 2:
 		tiro.atirar(aux,self)
-		pass
 
 func _on_hurtbox_area_entered(area):
 	if area.has_method("getParent"):
