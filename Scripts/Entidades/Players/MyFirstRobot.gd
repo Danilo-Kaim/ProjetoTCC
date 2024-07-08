@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+
+signal morreu
+
 @export var speed: int = 0
 @export var hp: int = 10
 @export_range(1,4) var directionInicial: int = 1
@@ -88,20 +91,25 @@ func attAngle():
 		aux2 = fmod(aux2,360.0)
 	if abs(aux - aux2) < 5:
 		tiro.atirar(aux,self)	
+
+
+func tomarDano(dano):
+	hp -= dano
+	if hp < 1:
+		print("MyFirstRobot perdeu")
+		morreu.emit()
 		
-
-
-
+				
 func _on_hurtbox_area_entered(area):
 	if area.has_method("getParent"):
-		if area.getParent() != self:
+		if area.getParent() != self and area.has_method("getDano"):
 			var x = area.rotation_degrees
 			if x < 0:
 				x = 180 + x
 				x = 180 + x
 			rotation = deg_to_rad(x+90)
-			print("MyFirstRobot Tomou Dano")
-
+			print("MyFirstRobot Tomou " + str(area.getDano()) + " de Dano!")
+			tomarDano(area.getDano())
 
 func _on_timer_timeout():
 	velocity = Vector2.ZERO

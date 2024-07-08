@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cwmptjpks7gyr"]
 
-[ext_resource type="PackedScene" uid="uid://vlwtk277dgoe" path="res://Cenas/Recursos/TiroAction.tscn" id="2_et5my"]
+[ext_resource type="PackedScene" uid="uid://vlwtk277dgoe" path="res://Cenas/Resources/TiroAction.tscn" id="1_bucmy"]
 
 [node name="PlayerTemplate" type="CharacterBody2D" groups=["player"]]
 scale = Vector2(0.5, 0.5)
@@ -10,10 +10,10 @@ collision_layer = 2
 
 [node name="Texture" type="Sprite2D" parent="."]
 
-[node name="TiroPos" parent="." instance=ExtResource("2_et5my")]
+[node name="TiroPos" parent="." instance=ExtResource("1_bucmy")]
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 32
 collision_mask = 72
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+[node name="CollisionHurtbox" type="CollisionShape2D" parent="Hurtbox"]

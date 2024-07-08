@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal morreu
+
 @export var speed: int = 300
 @export var hp: int = 10
 @onready var tiro = $TiroPos as Marker2D
@@ -35,12 +37,20 @@ func attAngle():
 	var gunTurnAngle = rad_to_deg(absoluteBearing) - angle
 	angle = gunTurnAngle
 	moveTiro()
+	
+	
+func tomarDano(dano):
+	hp -= dano
+	if hp < 1:
+		print("Player perdeu")
+		morreu.emit()
 
 
 func _on_hurtbox_area_entered(area):
 	if area.has_method("getParent"):
-		if area.getParent() != self:
-			print("Player Tomou Dano")
+		if area.getParent() != self and area.has_method("getDano"):
+			print("Player Tomou " + str(area.getDano()) + " de Dano!")
+			tomarDano(area.getDano())
 
 
 

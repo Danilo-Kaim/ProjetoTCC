@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+signal morreu
 
 @export var speed: int = 300
 @export var hp: int = 10
@@ -92,10 +93,18 @@ func attAngle():
 			canMove = true
 			canShoot = false	
 
+func tomarDano(dano):
+	hp -= dano
+	if hp < 1:
+		print("Corners perdeu")
+		morreu.emit()
+
+
 func _on_hurtbox_area_entered(area):
 	if area.has_method("getParent"):
-		if area.getParent() != self:
-			print("Corners Tomou Dano")
+		if area.getParent() != self and area.has_method("getDano"):
+			print("Corners Tomou " + str(area.getDano()) + " de Dano!")
+			tomarDano(area.getDano())
 
 
 func _on_tempo_tiro_timeout():

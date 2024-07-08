@@ -2,12 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://cwmptjpks7gyr" path="res://Cenas/Templates/PlayerTemplate.tscn" id="1_8bxug"]
 [ext_resource type="Texture2D" uid="uid://b1m5v0o1xn0da" path="res://Assets/icon.svg" id="2_8nsnx"]
-[ext_resource type="Script" path="res://Scripts/Fire.gd" id="2_ylbs2"]
+[ext_resource type="Script" path="res://Scripts/Entidades/Players/Fire.gd" id="2_ylbs2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pmdt0"]
 size = Vector2(118, 118)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_s6tnd"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sses4"]
 size = Vector2(120, 120)
 
 [node name="Fire" instance=ExtResource("1_8bxug")]
@@ -17,14 +17,14 @@ script = ExtResource("2_ylbs2")
 shape = SubResource("RectangleShape2D_pmdt0")
 
 [node name="Texture" parent="." index="1"]
+visible = false
 texture = ExtResource("2_8nsnx")
 
 [node name="TiroPos" parent="." index="2"]
 position = Vector2(50, 0)
 
-[node name="CollisionShape2D" parent="Hurtbox" index="0"]
-shape = SubResource("RectangleShape2D_s6tnd")
-debug_color = Color(0.689458, 0.300903, 0.981865, 0.42)
+[node name="CollisionHurtbox" parent="Hurtbox" index="0"]
+shape = SubResource("RectangleShape2D_sses4")
 
 [node name="Timer" type="Timer" parent="." index="4"]
 wait_time = 0.05

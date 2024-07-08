@@ -2,13 +2,13 @@
 
 [ext_resource type="PackedScene" uid="uid://cwmptjpks7gyr" path="res://Cenas/Templates/PlayerTemplate.tscn" id="1_mv0i7"]
 [ext_resource type="Texture2D" uid="uid://b1m5v0o1xn0da" path="res://Assets/icon.svg" id="2_1nwcc"]
-[ext_resource type="Script" path="res://Scripts/Crazy.gd" id="2_8sm40"]
+[ext_resource type="Script" path="res://Scripts/Entidades/Players/Crazy.gd" id="2_8sm40"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4222h"]
 size = Vector2(116, 116)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kghg1"]
-size = Vector2(120, 120)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qt4yk"]
+size = Vector2(132, 132)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qftqr"]
 size = Vector2(128, 128)
@@ -26,9 +26,8 @@ texture = ExtResource("2_1nwcc")
 [node name="TiroPos" parent="." index="2"]
 position = Vector2(50, 0)
 
-[node name="CollisionShape2D" parent="Hurtbox" index="0"]
-shape = SubResource("RectangleShape2D_kghg1")
-debug_color = Color(0.904646, 0.163825, 0.218737, 0.419608)
+[node name="CollisionHurtbox" parent="Hurtbox" index="0"]
+shape = SubResource("RectangleShape2D_qt4yk")
 
 [node name="BateuParede" type="Area2D" parent="." index="4"]
 collision_layer = 256

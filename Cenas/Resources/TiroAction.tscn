@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://vlwtk277dgoe"]
 
-[ext_resource type="Script" path="res://Scripts/TiroAction.gd" id="1_uwfli"]
-[ext_resource type="PackedScene" uid="uid://xnxflacmjpll" path="res://Cenas/Recursos/Bala.tscn" id="2_xd2dt"]
+[ext_resource type="Script" path="res://Scripts/Resources/TiroAction.gd" id="1_uwfli"]
+[ext_resource type="PackedScene" uid="uid://xnxflacmjpll" path="res://Cenas/Resources/Bala.tscn" id="2_xd2dt"]
 [ext_resource type="Texture2D" uid="uid://bc0ut8vbs0myr" path="res://Assets/Faca.png" id="3_q7uc4"]
 
 [node name="TiroPos" type="Marker2D"]

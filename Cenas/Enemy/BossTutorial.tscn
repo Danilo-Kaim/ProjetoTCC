@@ -1,0 +1,91 @@
+[gd_scene load_steps=10 format=3 uid="uid://c7g3bqr62nki0"]
+
+[ext_resource type="Script" path="res://Scripts/Entidades/Enemies/BossTutorial.gd" id="1_ib1x4"]
+[ext_resource type="PackedScene" uid="uid://caii8av7sn4mb" path="res://Cenas/Templates/EnemyTemplate.tscn" id="1_jltgo"]
+[ext_resource type="Texture2D" uid="uid://vifamnujb0v8" path="res://Assets/BossTutorial-sheet.png" id="3_fpnbj"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7wk4f"]
+radius = 9.0
+height = 64.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y10tv"]
+size = Vector2(48, 78)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ft3gn"]
+size = Vector2(44, 74)
+
+[sub_resource type="Animation" id="Animation_dr4v2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Texture:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_p21gn"]
+resource_name = "TomarDano"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Texture:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.6, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nvkqr"]
+_data = {
+"RESET": SubResource("Animation_dr4v2"),
+"TomarDano": SubResource("Animation_p21gn")
+}
+
+[node name="BossTutorial" instance=ExtResource("1_jltgo")]
+script = ExtResource("1_ib1x4")
+speed = 100.0
+
+[node name="Collision" parent="." index="0"]
+shape = SubResource("CapsuleShape2D_7wk4f")
+
+[node name="Navigation" type="NavigationAgent2D" parent="." index="1"]
+
+[node name="Timer" type="Timer" parent="Navigation" index="0"]
+wait_time = 0.5
+autostart = true
+
+[node name="Texture" parent="." index="2"]
+texture = ExtResource("3_fpnbj")
+hframes = 3
+
+[node name="Hitbox" parent="." index="3" node_paths=PackedStringArray("corpo")]
+corpo = NodePath("..")
+
+[node name="Collision" parent="Hitbox" index="0"]
+position = Vector2(-2, 3)
+shape = SubResource("RectangleShape2D_y10tv")
+
+[node name="Hurtbox" parent="." index="4"]
+priority = 1
+
+[node name="CollisionHurtbox" parent="Hurtbox" index="0"]
+position = Vector2(-2, 3)
+shape = SubResource("RectangleShape2D_ft3gn")
+
+[node name="Animation" parent="." index="5"]
+libraries = {
+"": SubResource("AnimationLibrary_nvkqr")
+}
+autoplay = "RESET"
+
+[connection signal="timeout" from="Navigation/Timer" to="." method="_on_timer_timeout"]
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

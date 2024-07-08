@@ -1,6 +1,7 @@
 extends Area2D
 
 @export var speed: int = 200
+@export var dano : int = 5
 
 var vetor = Vector2.RIGHT
 var parent
@@ -11,11 +12,14 @@ func _process(delta):
 func setParent(par):
 	parent = par
 	
-func getParent():
-	return parent	
-
 func setPos(pos):
 	position = pos
+
+func getParent():
+	return parent		
+
+func getDano():
+	return dano
 
 func setRotation(rot):
 	rotation = deg_to_rad(rot)

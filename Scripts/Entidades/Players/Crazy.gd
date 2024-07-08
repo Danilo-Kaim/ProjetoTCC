@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal morreu
+
 @export var speed: int = 300
 @export var hp: int = 10
 @export_range(1,4) var directionInicial: int = 2
@@ -87,8 +89,6 @@ func attAngle():
 		aux2 = 180 + aux2
 	if abs(aux1 - aux2) < 3:
 		tiro.atirar(aux2,self)
-func tomarDano():
-	pass
 
 
 
@@ -101,8 +101,15 @@ func _on_resete_tween_timeout():
 	turn()
 
 
+func tomarDano(dano):
+	hp -= dano
+	if hp < 1:
+		print("Crazy perdeu")
+		morreu.emit()
+
+
 func _on_hurtbox_area_entered(area):
 	if area.has_method("getParent"):
-		if area.getParent() != self:
-			print("Crazy Tomou Dano")
-	tomarDano()
+		if area.getParent() != self and area.has_method("getDano"):
+			print("Crazy Tomou " + str(area.getDano()) + " de Dano!")
+			tomarDano(area.getDano())

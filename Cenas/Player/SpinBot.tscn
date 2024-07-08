@@ -1,13 +1,13 @@
 [gd_scene load_steps=6 format=3 uid="uid://cnyj38a4c8iou"]
 
 [ext_resource type="PackedScene" uid="uid://cwmptjpks7gyr" path="res://Cenas/Templates/PlayerTemplate.tscn" id="1_4uqh6"]
-[ext_resource type="Script" path="res://Scripts/SpinBot.gd" id="2_eyha4"]
+[ext_resource type="Script" path="res://Scripts/Entidades/Players/SpinBot.gd" id="2_eyha4"]
 [ext_resource type="Texture2D" uid="uid://b1m5v0o1xn0da" path="res://Assets/icon.svg" id="3_v5yft"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xxmav"]
 size = Vector2(116, 116)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qyo86"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bj8tn"]
 size = Vector2(120, 120)
 
 [node name="SpinBot" instance=ExtResource("1_4uqh6")]
@@ -24,8 +24,7 @@ texture = ExtResource("3_v5yft")
 [node name="TiroPos" parent="." index="2"]
 position = Vector2(50, 0)
 
-[node name="CollisionShape2D" parent="Hurtbox" index="0"]
-shape = SubResource("RectangleShape2D_qyo86")
-debug_color = Color(0.658935, 0.514523, 0.0592575, 0.42)
+[node name="CollisionHurtbox" parent="Hurtbox" index="0"]
+shape = SubResource("RectangleShape2D_bj8tn")
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

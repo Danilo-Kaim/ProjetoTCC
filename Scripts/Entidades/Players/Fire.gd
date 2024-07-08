@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal morreu
+
 @export var speed: int = 0
 @export var hp: int = 10
 @export_range(1,4) var directionInicial: int = 2
@@ -77,12 +79,20 @@ func _on_timer_timeout():
 	speed = 0
 
 
+func tomarDano(dano):
+	hp -= dano
+	if hp < 1:
+		print("Fire perdeu")
+		morreu.emit()
+
+
 func _on_hurtbox_area_entered(area):
 	if area.has_method("getParent"):
-		if area.getParent() != self:
+		if area.getParent() != self and area.has_method("getDano"):
 			var x = area.rotation_degrees
 			if x < 0:
 				x = 180 + x
 				x = 180 + x
 			fire(x+90)
-			print("Fire Tomou Dano")
+			print("Fire Tomou " + str(area.getDano()) + " de Dano!")
+			tomarDano(area.getDano())

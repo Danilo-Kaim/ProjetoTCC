@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal morreu
+
 @export var speed: int = 0
 @export var hp: int = 10
 @export_range(1,4) var directionInicial: int = 2
@@ -79,10 +81,18 @@ func calcDistance():
 	var distance = sqrt((x*x) + (y*y))
 	return distance
 
+func tomarDano(dano):
+	hp -= dano
+	if hp < 1:
+		print("Tracker perdeu")
+		morreu.emit()
+
+
 func _on_hurtbox_area_entered(area):
 	if area.has_method("getParent"):
-		if area.getParent() != self:
-			print("Tracker Tomou Dano")
+		if area.getParent() != self and area.has_method("getDano"):
+			print("Tracker Tomou " + str(area.getDano()) + " de Dano!")
+			tomarDano(area.getDano())
 
 
 func _on_tween_finished():

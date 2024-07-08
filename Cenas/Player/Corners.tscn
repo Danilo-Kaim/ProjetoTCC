@@ -1,13 +1,13 @@
 [gd_scene load_steps=6 format=3 uid="uid://c0fx3tsw5yi3b"]
 
 [ext_resource type="PackedScene" uid="uid://cwmptjpks7gyr" path="res://Cenas/Templates/PlayerTemplate.tscn" id="1_f2ydo"]
-[ext_resource type="Script" path="res://Scripts/Corners.gd" id="2_6jo6d"]
+[ext_resource type="Script" path="res://Scripts/Entidades/Players/Corners.gd" id="2_6jo6d"]
 [ext_resource type="Texture2D" uid="uid://b1m5v0o1xn0da" path="res://Assets/icon.svg" id="2_b8dsd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8b0nx"]
 size = Vector2(116, 116)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_d7him"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ytk7q"]
 size = Vector2(120, 120)
 
 [node name="Corners" instance=ExtResource("1_f2ydo")]
@@ -26,9 +26,8 @@ texture = ExtResource("2_b8dsd")
 [node name="TiroPos" parent="." index="2"]
 position = Vector2(50, 0)
 
-[node name="CollisionShape2D" parent="Hurtbox" index="0"]
-shape = SubResource("RectangleShape2D_d7him")
-debug_color = Color(0.770165, 0.443926, 0.0634745, 0.42)
+[node name="CollisionHurtbox" parent="Hurtbox" index="0"]
+shape = SubResource("RectangleShape2D_ytk7q")
 
 [node name="BateuParede" type="RayCast2D" parent="." index="4"]
 position = Vector2(0, -40)

@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal morreu
+
 @export var speed: int = 300
 @export var hp: int = 10
 @export var enemy: CharacterBody2D
@@ -49,10 +51,18 @@ func attAngle():
 	if abs(aux - angle) < 2:
 		tiro.atirar(aux,self)
 
+func tomarDano(dano):
+	hp -= dano
+	if hp < 1:
+		print("SpinBot perdeu")
+		morreu.emit()
+
+
 func _on_hurtbox_area_entered(area):
 	if area.has_method("getParent"):
-		if area.getParent() != self:
-			print("SpinBot Tomou Dano")
+		if area.getParent() != self and area.has_method("getDano"):
+			print("SpinBot Tomou " + str(area.getDano()) + " de Dano!")
+			tomarDano(area.getDano())
 
 
 
