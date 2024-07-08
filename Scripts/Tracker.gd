@@ -2,13 +2,13 @@ extends CharacterBody2D
 
 @export var speed: int = 0
 @export var hp: int = 10
-@export_range(1,4) var directionInicial: int = 1
+@export_range(1,4) var directionInicial: int = 2
 @export var enemy: CharacterBody2D
 @onready var tiro = $TiroPos as Marker2D
 @onready var timer = $Timer
 var tween
 func _ready():
-	setter()
+	#setter()
 	rotacionar()
 
 
