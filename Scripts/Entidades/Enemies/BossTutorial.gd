@@ -7,6 +7,8 @@ signal morreu
 @export var dano : int = 5
 @export var player: CharacterBody2D
 @onready var nav = $Navigation as NavigationAgent2D
+@onready var collision = $Hitbox/Collision
+@onready var animation = $Animation
 
 
 func _physics_process(_delta):
@@ -38,3 +40,9 @@ func _on_hurtbox_area_entered(area):
 			print("Boss Tomou " + str(area.getDano())+ " de Dano!")
 			tomarDano(area.getDano())
 
+
+
+
+
+func _on_hitbox_area_entered(_area):
+	collision.set_disabled(true)

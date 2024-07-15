@@ -11,6 +11,8 @@ position = Vector2(284, 127)
 collision_layer = 8
 collision_mask = 161
 script = ExtResource("1_usbr2")
+speed = 500
+dano = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, -0.5)

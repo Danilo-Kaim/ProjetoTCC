@@ -73,6 +73,7 @@ corpo = NodePath("..")
 [node name="Collision" parent="Hitbox" index="0"]
 position = Vector2(-2, 3)
 shape = SubResource("RectangleShape2D_y10tv")
+debug_color = Color(0.967054, 0.158019, 0.235235, 0.42)
 
 [node name="Hurtbox" parent="." index="4"]
 priority = 1
@@ -88,4 +89,5 @@ libraries = {
 autoplay = "RESET"
 
 [connection signal="timeout" from="Navigation/Timer" to="." method="_on_timer_timeout"]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
