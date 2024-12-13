@@ -5,7 +5,7 @@ extends Node
 
 func _on_boss_tutorial_morreu():
 	get_tree().reload_current_scene()
-
+	print("Boss foi de Base!!")
 
 func _on_crazy_morreu():
 	get_tree().change_scene_to_packed(final)
