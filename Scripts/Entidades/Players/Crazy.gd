@@ -1,26 +1,18 @@
-extends CharacterBody2D
+extends Robot
 
-signal morreu
-
-@export var speed: int = 300
-@export var hp: int = 10
-@export_range(1,4) var directionInicial: int = 2
-@export var enemy: CharacterBody2D
-@onready var collision = $Collision as CollisionShape2D
-@onready var texture = $Texture as Sprite2D
-@onready var tiro = $TiroPos as Marker2D
-@onready var hurtbox = $Hurtbox as Area2D
-@onready var bateuParede = $BateuParede as Area2D
-
-var rotationDirection = 0
-var angle = 0
+@onready var collision: CollisionShape2D = $Collision as CollisionShape2D
+@onready var texture: Sprite2D = $Texture as Sprite2D
+@onready var hurtbox: Area2D = $Hurtbox as Area2D
+@onready var bateuParede: Area2D = $BateuParede as Area2D
 
 func _ready():
+	super._ready()
 	turn()
-func _physics_process(_delta):
+
+func move(_delta):
 	crazy()
 	move_and_slide()
-		
+
 func setter():
 	match directionInicial:
 		1:
@@ -32,6 +24,8 @@ func setter():
 		4:
 			rotation = deg_to_rad(180)
 	repairRotation(rotation)
+	
+	
 func crazy():	
 	attAngle()
 	match directionInicial:
@@ -64,34 +58,16 @@ func repairRotation(rot):
 	tiro.rotation = -rot
 	hurtbox.rotation = -rot
 	bateuParede.rotation = -rot
-	
-func moveTiro():
-	var raio = 50
-	tiro.position.x = raio * cos(deg_to_rad(angle)) 
-	tiro.position.y = raio * sin(deg_to_rad(angle))
-	
-func getAngleEnemy() -> float:
-	var directionEnemy = enemy.position - position
-	var bearingRadians = atan2(directionEnemy.y,directionEnemy.x)
-
-	return bearingRadians
  
 func attAngle():
-	var absoluteBearing = rotation + getAngleEnemy()
-	var gunTurnAngle = rad_to_deg(absoluteBearing) - rotation_degrees
-	var aux1 = gunTurnAngle
+	var aux1 = GL.getAngleEnemy(enemy,self,angle)
 	if aux1 < 0:
-		aux1 = 180 + aux1
-		aux1 = 180 + aux1		
+		aux1 = 360 + aux1		
 	var aux2 = rotation_degrees
 	if aux2 < 0:
-		aux2 = 180 + aux2
-		aux2 = 180 + aux2
+		aux2 = 360 + aux2
 	if abs(aux1 - aux2) < 3:
 		tiro.atirar(aux2,self)
-
-
-
 
 func _on_bateu_parede_body_entered(_body):
 	speed *= -1
@@ -99,17 +75,3 @@ func _on_bateu_parede_body_entered(_body):
 
 func _on_resete_tween_timeout():
 	turn()
-
-
-func tomarDano(dano):
-	hp -= dano
-	if hp < 1:
-		print("Crazy perdeu")
-		morreu.emit()
-
-
-func _on_hurtbox_area_entered(area):
-	if area.has_method("getParent"):
-		if area.getParent() != self and area.has_method("getDano"):
-			print("Crazy Tomou " + str(area.getDano()) + " de Dano!")
-			tomarDano(area.getDano())

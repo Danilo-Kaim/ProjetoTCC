@@ -1,8 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://c7g3bqr62nki0"]
+[gd_scene load_steps=14 format=3 uid="uid://c7g3bqr62nki0"]
 
 [ext_resource type="Script" path="res://Scripts/Entidades/Enemies/BossTutorial.gd" id="1_ib1x4"]
 [ext_resource type="PackedScene" uid="uid://caii8av7sn4mb" path="res://Cenas/Templates/EnemyTemplate.tscn" id="1_jltgo"]
 [ext_resource type="Texture2D" uid="uid://vifamnujb0v8" path="res://Assets/BossTutorial-sheet.png" id="3_fpnbj"]
+[ext_resource type="PackedScene" uid="uid://c3yubj58oodqx" path="res://Cenas/Resources/HealthComponent.tscn" id="3_rmphv"]
+[ext_resource type="PackedScene" uid="uid://ds4ynmdw68sa7" path="res://Cenas/Resources/Navigation.tscn" id="4_4rxrc"]
+[ext_resource type="Script" path="res://Scripts/Resources/Hurtbox.gd" id="5_8emj2"]
+[ext_resource type="Script" path="res://Scripts/Resources/HitboxBossTutorial.gd" id="6_l8brm"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7wk4f"]
 radius = 9.0
@@ -50,44 +54,42 @@ _data = {
 "TomarDano": SubResource("Animation_p21gn")
 }
 
-[node name="BossTutorial" instance=ExtResource("1_jltgo")]
+[node name="BossTutorial" groups=["enemy"] instance=ExtResource("1_jltgo")]
 script = ExtResource("1_ib1x4")
-speed = 100.0
+health = 1000
 
-[node name="Collision" parent="." index="0"]
+[node name="HealthComponent" parent="." index="0" instance=ExtResource("3_rmphv")]
+
+[node name="Naviagation" parent="." index="1" instance=ExtResource("4_4rxrc")]
+
+[node name="Collision" parent="." index="2"]
 shape = SubResource("CapsuleShape2D_7wk4f")
 
-[node name="Navigation" type="NavigationAgent2D" parent="." index="1"]
-
-[node name="Timer" type="Timer" parent="Navigation" index="0"]
-wait_time = 0.5
-autostart = true
-
-[node name="Texture" parent="." index="2"]
+[node name="Texture" parent="." index="3"]
 texture = ExtResource("3_fpnbj")
 hframes = 3
 
-[node name="Hitbox" parent="." index="3" node_paths=PackedStringArray("corpo")]
-corpo = NodePath("..")
+[node name="Hitbox" parent="." index="4"]
+script = ExtResource("6_l8brm")
 
 [node name="Collision" parent="Hitbox" index="0"]
 position = Vector2(-2, 3)
 shape = SubResource("RectangleShape2D_y10tv")
 debug_color = Color(0.967054, 0.158019, 0.235235, 0.42)
 
-[node name="Hurtbox" parent="." index="4"]
+[node name="Hurtbox" parent="." index="5"]
 priority = 1
+script = ExtResource("5_8emj2")
 
 [node name="CollisionHurtbox" parent="Hurtbox" index="0"]
 position = Vector2(-2, 3)
 shape = SubResource("RectangleShape2D_ft3gn")
 
-[node name="Animation" parent="." index="5"]
+[node name="Animation" parent="." index="6"]
 libraries = {
 "": SubResource("AnimationLibrary_nvkqr")
 }
 autoplay = "RESET"
 
-[connection signal="timeout" from="Navigation/Timer" to="." method="_on_timer_timeout"]
-[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
-[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="area_entered" from="Hitbox" to="Hitbox" method="_on_area_entered"]
+[connection signal="area_entered" from="Hurtbox" to="Hurtbox" method="_on_area_entered"]

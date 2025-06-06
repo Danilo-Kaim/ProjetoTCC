@@ -1,14 +1,20 @@
 extends Area2D
+class_name Hitbox
 
-@export var corpo : CharacterBody2D
-var parent
-var dano
+var damage: int
+
+var parent: CharacterBody2D
+
+
 func _ready():
-	parent = corpo
-	dano = corpo.getDano()
+	parent = get_parent()
+	damage = parent.damage
 
 func getDano():
-	return dano
+	return damage
 
 func getParent():
-	return parent			
+	return parent
+
+func setParent(par: CharacterBody2D):
+	parent = par			

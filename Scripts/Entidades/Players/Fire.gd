@@ -1,25 +1,20 @@
-extends CharacterBody2D
+extends Robot
 
-signal morreu
+@onready var timer: Timer = $Timer as Timer
 
-@export var speed: int = 0
-@export var hp: int = 10
-@export_range(1,4) var directionInicial: int = 2
-@export var enemy: CharacterBody2D
-@onready var tiro = $TiroPos as Marker2D
-@onready var timer = $Timer
-var up = true
-var angle = 0
-var loked = false
+var up: bool = true
+var loked: bool = false
+
 func _ready():
+	super._ready()
 	setter()
 
-func _physics_process(_delta):
+func move(_delta):
 	if !loked:
 		angle += 1.6
 		if angle >= 360:
 			angle = angle - 360
-		moveTiro()		
+		tiro.position = GL.moveTiro(angle)		
 	attAngle()
 
 func setter():
@@ -32,7 +27,7 @@ func setter():
 			angle = 90
 		4:
 			angle = 180
-	moveTiro()
+	tiro.position = GL.moveTiro(angle)
 	
 func fire(rot):
 	speed = 8000
@@ -43,28 +38,15 @@ func fire(rot):
 		velocity = transform.x  * -speed	
 	timer.start()
 	move_and_slide()
-	
-func moveTiro():
-	var raio = 50
-	tiro.position.x = raio * cos(deg_to_rad(angle)) 
-	tiro.position.y = raio * sin(deg_to_rad(angle))
-	
-func getAngleEnemy() -> float:
-	var directionEnemy = enemy.position - position
-	var bearingRadians = atan2(directionEnemy.y,directionEnemy.x)
-	return bearingRadians
  
 func attAngle():
-	var absoluteBearing = deg_to_rad(angle) + getAngleEnemy()
-	var gunTurnAngle = rad_to_deg(absoluteBearing) - angle
-	var aux1 = gunTurnAngle
-	if aux1 < 0:
-		aux1 = 180 + aux1
-		aux1 = 180 + aux1
-	if abs(aux1 - angle) < 2:
+	var aux = GL.getAngleEnemy(enemy,self,angle)
+	if aux < 0:
+		aux = 360 + aux
+	if abs(aux - angle) < 2:
 		loked = true
-		angle = aux1
-		moveTiro()
+		angle = aux
+		tiro.position = GL.moveTiro(angle)
 		tiro.atirar(angle,self)
 	else:
 		loked = false	
@@ -78,21 +60,8 @@ func _on_timer_timeout():
 	rotation_degrees = 0
 	speed = 0
 
-
-func tomarDano(dano):
-	hp -= dano
-	if hp < 1:
-		print("Fire perdeu")
-		morreu.emit()
-
-
-func _on_hurtbox_area_entered(area):
-	if area.has_method("getParent"):
-		if area.getParent() != self and area.has_method("getDano"):
-			var x = area.rotation_degrees
-			if x < 0:
-				x = 180 + x
-				x = 180 + x
-			fire(x+90)
-			print("Fire Tomou " + str(area.getDano()) + " de Dano!")
-			tomarDano(area.getDano())
+func _on_hurtbox_receive_damage(area: Hitbox):
+	var x = area.rotation_degrees
+	if x < 0:
+		x = 360 + x
+	fire(x+90)

@@ -1,20 +1,16 @@
-extends CharacterBody2D
+extends Robot
 
-signal morreu
+@onready var timer: Timer = $Timer as Timer
 
-@export var speed: int = 0
-@export var hp: int = 10
-@export_range(1,4) var directionInicial: int = 2
-@export var enemy: CharacterBody2D
-@onready var tiro = $TiroPos as Marker2D
-@onready var timer = $Timer
-var tween
+var tween : Tween
+
 func _ready():
-	#setter()
+	super._ready()
+	setter()
 	rotacionar()
 
 
-func _physics_process(_delta):
+func move(_delta):
 	attAngle()
 
 func setter():
@@ -27,6 +23,7 @@ func setter():
 			rotation = deg_to_rad(90)
 		4:
 			rotation = deg_to_rad(180)
+			
 func Tracker(spd):	
 	match directionInicial:
 		1:
@@ -47,53 +44,24 @@ func rotacionar():
 	tween = get_tree().create_tween()
 	tween.tween_property(self,"rotation",rotation+deg_to_rad(360),1.5)
 	tween.finished.connect(_on_tween_finished)
-	
-	
-func getAngleEnemy() -> float:
-	var directionEnemy = enemy.position - position
-	var bearingRadians = atan2(directionEnemy.y,directionEnemy.x)
-	return bearingRadians
  
 func attAngle():
 	var aux2 = rotation_degrees
 	if aux2 >= 360:
 		aux2 = fmod(aux2,360.0)		
-	var absoluteBearing = deg_to_rad(aux2) + getAngleEnemy()
-	var gunTurnAngle = rad_to_deg(absoluteBearing) - aux2
-	var aux = gunTurnAngle
+	var aux = GL.getAngleEnemy(enemy,self,angle)
 	if aux < 0:
-		aux = 180 + aux
-		aux = 180 + aux
+		aux = 360 + aux
 	if abs(aux - aux2) < 3:
 		tween.pause()
 		timer.start()
 	if !tween.is_running():
-		if calcDistance() < 180:
+		if GL.calcDistance(enemy,self) < 180:
 			Tracker(-speed)
-		elif calcDistance() < 250:
+		elif GL.calcDistance(enemy,self) < 250:
 			tiro.atirar(aux2,self)	
 		else:		
 			Tracker(speed)				
-
-func calcDistance():
-	var x = enemy.global_position.x - global_position.x
-	var y = enemy.global_position.y - global_position.y
-	var distance = sqrt((x*x) + (y*y))
-	return distance
-
-func tomarDano(dano):
-	hp -= dano
-	if hp < 1:
-		print("Tracker perdeu")
-		morreu.emit()
-
-
-func _on_hurtbox_area_entered(area):
-	if area.has_method("getParent"):
-		if area.getParent() != self and area.has_method("getDano"):
-			print("Tracker Tomou " + str(area.getDano()) + " de Dano!")
-			tomarDano(area.getDano())
-
 
 func _on_tween_finished():
 	tween.stop()

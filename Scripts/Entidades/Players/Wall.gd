@@ -1,21 +1,15 @@
-extends CharacterBody2D
+extends Robot
 
-signal morreu
+@onready var bateuParede: RayCast2D = $BateuParede as RayCast2D
 
-@export var speed: int = 300
-@export var hp: int = 10
-@export_range(1,4) var wall = 1
-@export var enemy: CharacterBody2D
-@onready var tiro = $TiroPos as Marker2D
-@onready var bateuParede = $BateuParede as RayCast2D
-var  input_vector = Vector2.ZERO
-var angle = 0
-var angleAux = 0 
-var rotacionando = false
-var primeiraRot = true
+var  input_vector: Vector2 = Vector2.ZERO
+var angleAux: float = 0 
+var rotacionando: bool = false
+var primeiraRot: bool = true
 
 func _ready():
-	match wall:
+	super._ready()
+	match directionInicial:
 		1:
 			bateuParede.target_position = Vector2(0,-20)
 			bateuParede.position = Vector2(0,-40)
@@ -36,9 +30,9 @@ func _ready():
 			bateuParede.position = Vector2(-40,0)
 			input_vector = Vector2.LEFT	
 			angle = 180
-	moveTiro()
+	tiro.position = GL.moveTiro(angle)
 
-func _physics_process(_delta):
+func move(_delta):
 	if angle < 0:
 		angle = 360 - angle
 	if rotacionando and angle != angleAux:
@@ -51,12 +45,13 @@ func _physics_process(_delta):
 	attAngle()
 	velocity =  speed * input_vector 
 	move_and_slide()
+	
 func rotacionar():
 	angle -= 1
-	moveTiro()
+	tiro.position = GL.moveTiro(angle)
 
 func setter():
-	match wall:
+	match directionInicial:
 		1:
 			bateuParede.target_position = Vector2(0,-20)
 			bateuParede.position = Vector2(0,-40)
@@ -77,9 +72,9 @@ func setter():
 
 func goWall():
 	if bateuParede.is_colliding():
-		wall -= 1
-		if wall == 0:
-			wall = 4
+		directionInicial -= 1
+		if directionInicial == 0:
+			directionInicial = 4
 		bateuParede.enabled = false
 		if primeiraRot:
 			angleAux = angle - 180
@@ -91,40 +86,10 @@ func goWall():
 		if angleAux < 0:
 			angleAux = 270
 		rotacionando = true				
-	
-
-func moveTiro():
-	var raio = 50
-	tiro.position.x = raio * cos(deg_to_rad(angle)) 
-	tiro.position.y = raio * sin(deg_to_rad(angle))
-	
-func getAngleEnemy() -> float:
-	var directionEnemy = enemy.position - position
-	var bearingRadians = atan2(directionEnemy.y,directionEnemy.x)
-
-	return bearingRadians
  
 func attAngle():
-	var absoluteBearing = deg_to_rad(angle) + getAngleEnemy()
-	var gunTurnAngle = rad_to_deg(absoluteBearing) - angle
-	var aux = gunTurnAngle
+	var aux = GL.getAngleEnemy(enemy,self,angle)
 	if aux < 0:
-		aux = 180 + aux
-		aux = 180 + aux
+		aux = 360 + aux
 	if abs(aux - angle) < 2:
 		tiro.atirar(angle,self)	
-
-
-func tomarDano(dano):
-	hp -= dano
-	if hp < 1:
-		print("Wall perdeu")
-		morreu.emit()
-
-
-func _on_hurtbox_area_entered(area):
-	if area.has_method("getParent"):
-		if area.getParent() != self and area.has_method("getDano"):
-			print("Wall Tomou " + str(area.getDano()) + " de Dano!")
-			tomarDano(area.getDano())
-
