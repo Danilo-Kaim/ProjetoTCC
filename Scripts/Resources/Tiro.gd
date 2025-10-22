@@ -16,8 +16,9 @@ func destruirBala():
 	queue_free()	
 
 
-func _on_area_entered(_area: Area2D):
-	destruirBala()
+func _on_area_entered(area: Area2D):
+	if area.get_parent() != parent:
+		destruirBala()
 
 
 func _on_body_entered(_body):

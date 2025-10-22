@@ -26,3 +26,9 @@ func createTimer(waitTimer: float,oneShot: bool,autoStart: bool):
 	timer.autostart = autoStart
 	add_child(timer)
 	return timer
+	
+func getAngleToRight(v: Vector2, angle: float) -> float:
+	var bearingRadians = atan2(v.y,v.x)
+	var absoluteBearing = deg_to_rad(angle) + bearingRadians
+	var gunTurnAngle = rad_to_deg(absoluteBearing) - angle
+	return gunTurnAngle

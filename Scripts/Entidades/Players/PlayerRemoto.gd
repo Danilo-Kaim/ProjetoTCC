@@ -1,9 +1,7 @@
 extends CharacterBody2D
 
-signal morreu
-
 @export var speed: int = 300
-@export var hp: int = 10
+@export var health: int = 10
 @onready var tiro = $TiroPos as Marker2D
 var  input_vector = Vector2.ZERO
 var angle = 0
@@ -21,36 +19,17 @@ func controle():
 	if Input.is_action_just_pressed("Atirar"):
 		tiro.atirar(angle,self)
 		
-func moveTiro():
-	var raio = 50
-	tiro.position.x = raio * cos(deg_to_rad(angle)) 
-	tiro.position.y = raio * sin(deg_to_rad(angle)) 
 
 func getAngleMouse() -> float:
 	var directionMouse = get_global_mouse_position() - position
 	var bearingRadians = atan2(directionMouse.y,directionMouse.x)
-
 	return bearingRadians
 
 func attAngle():
 	var absoluteBearing = deg_to_rad(angle) + getAngleMouse()
 	var gunTurnAngle = rad_to_deg(absoluteBearing) - angle
 	angle = gunTurnAngle
-	moveTiro()
-	
-	
-func tomarDano(dano):
-	hp -= dano
-	if hp < 1:
-		print("Player perdeu")
-		morreu.emit()
-
-
-func _on_hurtbox_area_entered(area):
-	if area.has_method("getParent"):
-		if area.getParent() != self and area.has_method("getDano"):
-			print("Player Tomou " + str(area.getDano()) + " de Dano!")
-			tomarDano(area.getDano())
+	tiro.position = GL.moveTiro(angle)
 
 
 

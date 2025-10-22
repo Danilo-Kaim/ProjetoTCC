@@ -5,7 +5,7 @@ class_name Robot
 
 @export var health: int = 10
 @export var speed: int = 300
-@onready var tiro = $TiroPos as Marker2D
+@onready var tiro = $TiroPos as Tiro
 
 var enemy: CharacterBody2D
 var angle: float = 0
