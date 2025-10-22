@@ -1,23 +1,17 @@
-extends CharacterBody2D
+extends Robot
 
-signal morreu
+@onready var bateuParede: RayCast2D = $BateuParede as RayCast2D
 
-@export var speed: int = 300
-@export var hp: int = 10
-@export_range(1,4) var corner = 1
-@export var enemy: CharacterBody2D
-@onready var tiro = $TiroPos as Marker2D
-@onready var bateuParede = $BateuParede as RayCast2D
-var  input_vector = Vector2.ZERO
-var angle = 0
-var nCollision = 0
-var canShoot = false
-var canMove = true
+var  input_vector: Vector2 = Vector2.ZERO
+var nCollision: int = 0
+var canShoot: bool = false
+var canMove: bool = true
 
 func _ready():
+	super._ready()
 	setter()
 
-func _physics_process(_delta):
+func move(_delta):
 	if canMove:
 		goCorners()
 	else:
@@ -26,7 +20,7 @@ func _physics_process(_delta):
 	move_and_slide()
 
 func setter():
-	match corner:
+	match directionInicial:
 		1:
 			bateuParede.target_position = Vector2(0,-20)
 			bateuParede.position = Vector2(0,-40)
@@ -47,65 +41,36 @@ func setter():
 			bateuParede.position = Vector2(-40,0)
 			input_vector = Vector2.LEFT	
 			angle = 180
-	moveTiro()
+	tiro.position = GL.moveTiro(angle)
 
 func goCorners():
 	if bateuParede.is_colliding():
 		nCollision += 1
 	if nCollision == 1:
-		corner -= 1
-		if corner == 0:
-			corner = 4	
+		directionInicial -= 1
+		if directionInicial == 0:
+			directionInicial = 4	
 		setter()
 		nCollision += 1
 	if nCollision > 2:
 		canShoot = true			
-	
-
-func moveTiro():
-	var raio = 50
-	tiro.position.x = raio * cos(deg_to_rad(angle)) 
-	tiro.position.y = raio * sin(deg_to_rad(angle))
-	
-func getAngleEnemy() -> float:
-	var directionEnemy = enemy.position - position
-	var bearingRadians = atan2(directionEnemy.y,directionEnemy.x)
-
-	return bearingRadians
  
 func attAngle():
-	var absoluteBearing = deg_to_rad(angle) + getAngleEnemy()
-	var gunTurnAngle = rad_to_deg(absoluteBearing) - angle
-	var aux = gunTurnAngle
+	var aux = GL.getAngleEnemy(enemy,self,angle)
 	if aux < 0:
-		aux = 180 + aux
-		aux = 180 + aux
+		aux = 360 + aux
 	if abs(aux - angle) < 10 and nCollision < 3:
 		canMove = false
 		canShoot = true
-		angle = gunTurnAngle 	
+		angle = aux	
 	else:
 		if nCollision > 2:
 			canMove = false
-			angle = gunTurnAngle
-			moveTiro()		
+			angle = aux
+			tiro.position = GL.moveTiro(angle)		
 		else:
 			canMove = true
 			canShoot = false	
-
-func tomarDano(dano):
-	hp -= dano
-	if hp < 1:
-		print("Corners perdeu")
-		morreu.emit()
-
-
-func _on_hurtbox_area_entered(area):
-	if area.has_method("getParent"):
-		if area.getParent() != self and area.has_method("getDano"):
-			print("Corners Tomou " + str(area.getDano()) + " de Dano!")
-			tomarDano(area.getDano())
-
 
 func _on_tempo_tiro_timeout():
 	attAngle()

@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://cigr6im0hpdmn"]
+[gd_scene load_steps=8 format=3 uid="uid://cigr6im0hpdmn"]
 
 [ext_resource type="PackedScene" uid="uid://cwmptjpks7gyr" path="res://Cenas/Templates/PlayerTemplate.tscn" id="1_8bxug"]
 [ext_resource type="Texture2D" uid="uid://b1m5v0o1xn0da" path="res://Assets/icon.svg" id="2_8nsnx"]
 [ext_resource type="Script" path="res://Scripts/Entidades/Players/Fire.gd" id="2_ylbs2"]
+[ext_resource type="PackedScene" uid="uid://c3yubj58oodqx" path="res://Cenas/Resources/HealthComponent.tscn" id="3_56sxj"]
+[ext_resource type="Script" path="res://Scripts/Resources/Hurtbox.gd" id="5_e678o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pmdt0"]
 size = Vector2(118, 118)
@@ -12,23 +14,31 @@ size = Vector2(120, 120)
 
 [node name="Fire" instance=ExtResource("1_8bxug")]
 script = ExtResource("2_ylbs2")
+directionInicial = null
+health = null
+speed = null
 
-[node name="Collision" parent="." index="0"]
+[node name="HealthComponent" parent="." index="0" instance=ExtResource("3_56sxj")]
+
+[node name="Collision" parent="." index="1"]
 shape = SubResource("RectangleShape2D_pmdt0")
 
-[node name="Texture" parent="." index="1"]
-visible = false
+[node name="Texture" parent="." index="2"]
 texture = ExtResource("2_8nsnx")
 
-[node name="TiroPos" parent="." index="2"]
+[node name="TiroPos" parent="." index="3"]
 position = Vector2(50, 0)
+
+[node name="Hurtbox" parent="." index="4"]
+script = ExtResource("5_e678o")
 
 [node name="CollisionHurtbox" parent="Hurtbox" index="0"]
 shape = SubResource("RectangleShape2D_sses4")
 
-[node name="Timer" type="Timer" parent="." index="4"]
+[node name="Timer" type="Timer" parent="." index="5"]
 wait_time = 0.05
 one_shot = true
 
-[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="ReceiveDamage" from="Hurtbox" to="." method="_on_hurtbox_receive_damage"]
+[connection signal="area_entered" from="Hurtbox" to="Hurtbox" method="_on_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

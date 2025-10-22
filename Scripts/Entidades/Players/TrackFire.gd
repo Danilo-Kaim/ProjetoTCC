@@ -1,15 +1,7 @@
-extends CharacterBody2D
-
-signal morreu
-
-@export var speed: int = 0
-@export var hp: int = 10
-@export_range(1,4) var directionInicial: int = 2
-@export var enemy: CharacterBody2D
-@onready var tiro = $TiroPos as Marker2D
-var angle = 0
+extends Robot
 
 func _ready():
+	super._ready()
 	setter()
 
 
@@ -23,42 +15,10 @@ func setter():
 			angle = 90
 		4:
 			angle = 180
-	moveTiro()
-	
-
-
-
-func moveTiro():
-	var raio = 50
-	tiro.position.x = raio * cos(deg_to_rad(angle)) 
-	tiro.position.y = raio * sin(deg_to_rad(angle))
-	
-func getAngleEnemy() -> float:
-	var directionEnemy = enemy.position - position
-	var bearingRadians = atan2(directionEnemy.y,directionEnemy.x)
-	return bearingRadians
- 
-func attAngle():
-	var absoluteBearing = deg_to_rad(angle) + getAngleEnemy()
-	var gunTurnAngle = rad_to_deg(absoluteBearing) - angle
-	return gunTurnAngle	
+	tiro.position = GL.moveTiro(angle)
 
 
 func _on_timer_timeout():
-	angle = attAngle()
-	moveTiro()
+	angle = GL.getAngleEnemy(enemy,self,angle)
+	tiro.position = GL.moveTiro(angle)
 	tiro.atirar(angle,self)
-
-
-func tomarDano(dano):
-	hp -= dano
-	if hp < 1:
-		print("TrackFire perdeu")
-		morreu.emit()
-
-
-func _on_hurtbox_area_entered(area):
-	if area.has_method("getParent"):
-		if area.getParent() != self and area.has_method("getDano"):
-			print("TrackFire Tomou " + str(area.getDano()) + " de Dano!")
-			tomarDano(area.getDano())
