@@ -1,10 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://n7taqmdj13jl"]
+[gd_scene load_steps=14 format=3 uid="uid://n7taqmdj13jl"]
 
-[ext_resource type="PackedScene" uid="uid://cwmptjpks7gyr" path="res://Cenas/Templates/PlayerTemplate.tscn" id="1_0ygkk"]
-[ext_resource type="Script" path="res://Scripts/Entidades/Enemies/Boss_1.gd" id="2_u2g7p"]
+[ext_resource type="Script" path="res://Scripts/Entidades/Enemies/Boss.gd" id="2_u2g7p"]
 [ext_resource type="PackedScene" uid="uid://c3yubj58oodqx" path="res://Cenas/Resources/HealthComponent.tscn" id="3_p4v0s"]
 [ext_resource type="Texture2D" uid="uid://b1m5v0o1xn0da" path="res://Assets/icon.svg" id="3_qf7g3"]
-[ext_resource type="Script" path="res://Cenas/Enemy/HitboxFaca.gd" id="5_4y6nm"]
+[ext_resource type="PackedScene" uid="uid://vlwtk277dgoe" path="res://Cenas/Resources/TiroAction.tscn" id="4_fb1hd"]
 [ext_resource type="Script" path="res://Scripts/Resources/Hurtbox.gd" id="5_cad6l"]
 [ext_resource type="Script" path="res://Scripts/States/FSM.gd" id="6_4glwt"]
 [ext_resource type="Script" path="res://Scripts/States/Idle.gd" id="7_ne6xj"]
@@ -16,18 +15,16 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xxmav"]
 size = Vector2(116, 116)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lrj0k"]
-size = Vector2(20, 49)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8mfoh"]
 size = Vector2(128, 128)
 
-[node name="Boss1" instance=ExtResource("1_0ygkk")]
+[node name="Boss1" type="CharacterBody2D" groups=["enemy"]]
+scale = Vector2(0.5, 0.5)
 collision_layer = 4
 script = ExtResource("2_u2g7p")
 fric = 600
 
-[node name="DashAviso" type="Label" parent="." index="0"]
+[node name="DashAviso" type="Label" parent="."]
 offset_left = -122.0
 offset_top = -132.0
 offset_right = 122.0
@@ -35,57 +32,45 @@ offset_bottom = -58.0
 theme_override_font_sizes/font_size = 48
 horizontal_alignment = 1
 
-[node name="HealthComponent" parent="." index="1" instance=ExtResource("3_p4v0s")]
+[node name="HealthComponent" parent="." instance=ExtResource("3_p4v0s")]
 
-[node name="Collision" parent="." index="2"]
+[node name="Collision" type="CollisionShape2D" parent="."]
 z_index = 1
 shape = SubResource("RectangleShape2D_xxmav")
 
-[node name="Texture" parent="." index="3"]
+[node name="Texture" type="Sprite2D" parent="."]
 texture = ExtResource("3_qf7g3")
 
-[node name="TiroPos" parent="." index="4"]
+[node name="TiroPos" parent="." instance=ExtResource("4_fb1hd")]
 position = Vector2(70, 0)
 scale = Vector2(2, 2)
 
-[node name="HitboxFaca" type="Area2D" parent="." index="5"]
-position = Vector2(70, 0)
-scale = Vector2(2, 2)
-collision_layer = 64
-collision_mask = 32
-script = ExtResource("5_4y6nm")
-dano = 10
-
-[node name="Collision" type="CollisionShape2D" parent="HitboxFaca" index="0"]
-position = Vector2(0, 0.5)
-shape = SubResource("RectangleShape2D_lrj0k")
-debug_color = Color(0.933515, 0.198832, 0.422043, 0.42)
-
-[node name="Hurtbox" parent="." index="6"]
+[node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 128
 collision_mask = 24
 script = ExtResource("5_cad6l")
 
-[node name="CollisionHurtbox" parent="Hurtbox" index="0"]
+[node name="CollisionHurtbox" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("RectangleShape2D_8mfoh")
 
-[node name="FSM" type="Node" parent="." index="7" node_paths=PackedStringArray("inicial_state")]
+[node name="FSM" type="Node" parent="." node_paths=PackedStringArray("inicial_state")]
 script = ExtResource("6_4glwt")
 inicial_state = NodePath("MovingAround")
 
-[node name="Idle" type="Node" parent="FSM" index="0"]
+[node name="Idle" type="Node" parent="FSM"]
 script = ExtResource("7_ne6xj")
+nextState = "MovingAround"
 
-[node name="MovingAround" type="Node" parent="FSM" index="1"]
+[node name="MovingAround" type="Node" parent="FSM"]
 script = ExtResource("8_vjkig")
 
-[node name="Shooting" type="Node" parent="FSM" index="2"]
+[node name="Shooting" type="Node" parent="FSM"]
 script = ExtResource("9_8t511")
 
-[node name="Dash" type="Node" parent="FSM" index="3"]
+[node name="Dash" type="Node" parent="FSM"]
 script = ExtResource("10_68hoo")
 
-[node name="Chase" type="Node" parent="FSM" index="4"]
+[node name="Chase" type="Node" parent="FSM"]
 script = ExtResource("11_un0ok")
 
 [connection signal="area_entered" from="Hurtbox" to="Hurtbox" method="_on_area_entered"]

@@ -30,6 +30,7 @@ func on_child_transition(state: State, new_state_name: String):
 		return
 	
 	var new_state = states.get(new_state_name.to_lower())
+	print(new_state)
 	if !new_state:
 		return
 	if current_state:

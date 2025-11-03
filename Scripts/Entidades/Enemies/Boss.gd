@@ -1,13 +1,13 @@
 extends CharacterBody2D
-class_name Boss1
+class_name Boss
 
-@export var player: CharacterBody2D
 @export var speed: int = 150
 @export var dashSpeed: int = 750
 @export var health: int = 10
 @export var fric: int = 60
 @onready var tiro: Tiro = $TiroPos as Tiro
 
+var player: CharacterBody2D
 var direction: Vector2
 var angle = 0
 var isDashing = false

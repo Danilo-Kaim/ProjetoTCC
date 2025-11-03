@@ -1,4 +1,5 @@
 extends Hitbox
+class_name Bala
 
 @export var speed: int = 200
 @export var dano : int = 5

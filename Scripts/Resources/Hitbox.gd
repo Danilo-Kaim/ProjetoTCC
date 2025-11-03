@@ -1,20 +1,12 @@
 extends Area2D
 class_name Hitbox
 
-var damage: int
+var damage: int = 0
 
-var parent: CharacterBody2D
+var parent: Node2D
 
 
 func _ready():
 	parent = get_parent()
-	damage = parent.damage
-
-func getDano():
-	return damage
-
-func getParent():
-	return parent
-
-func setParent(par: CharacterBody2D):
-	parent = par			
+	damage = parent.damageHitbox
+			

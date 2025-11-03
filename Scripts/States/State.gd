@@ -2,6 +2,7 @@ extends Node
 class_name State
 
 signal Transitioned
+@export var nextState: String
 
 func Enter():
 	pass

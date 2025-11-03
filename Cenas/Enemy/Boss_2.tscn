@@ -1,0 +1,60 @@
+[gd_scene load_steps=12 format=3 uid="uid://nwi52g4tovm8"]
+
+[ext_resource type="Script" path="res://Scripts/Entidades/Enemies/Boss2.gd" id="1_absb6"]
+[ext_resource type="PackedScene" uid="uid://c3yubj58oodqx" path="res://Cenas/Resources/HealthComponent.tscn" id="3_s7ou0"]
+[ext_resource type="Texture2D" uid="uid://b1m5v0o1xn0da" path="res://Assets/icon.svg" id="4_bcjk1"]
+[ext_resource type="Script" path="res://Scripts/Resources/KnifeManager.gd" id="6_d7qw3"]
+[ext_resource type="Script" path="res://Scripts/Resources/Hurtbox.gd" id="6_q4y2f"]
+[ext_resource type="Script" path="res://Scripts/States/InvokeKnife.gd" id="6_xwnro"]
+[ext_resource type="Script" path="res://Scripts/States/FSM.gd" id="7_hq11f"]
+[ext_resource type="Script" path="res://Scripts/States/Idle.gd" id="8_u6h4g"]
+[ext_resource type="Script" path="res://Scripts/States/MovingAround.gd" id="9_fjav0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xxmav"]
+size = Vector2(116, 116)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8mfoh"]
+size = Vector2(128, 128)
+
+[node name="Boss2" type="CharacterBody2D" groups=["player"]]
+scale = Vector2(0.5, 0.5)
+collision_layer = 4
+script = ExtResource("1_absb6")
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_s7ou0")]
+
+[node name="KnifeManager" type="Node" parent="."]
+script = ExtResource("6_d7qw3")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+z_index = 1
+shape = SubResource("RectangleShape2D_xxmav")
+
+[node name="Texture" type="Sprite2D" parent="."]
+texture = ExtResource("4_bcjk1")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 24
+script = ExtResource("6_q4y2f")
+
+[node name="CollisionHurtbox" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_8mfoh")
+
+[node name="FSM" type="Node" parent="." node_paths=PackedStringArray("inicial_state")]
+script = ExtResource("7_hq11f")
+inicial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="FSM"]
+script = ExtResource("8_u6h4g")
+tempoParado = 1
+nextState = "InvokeKnife"
+
+[node name="InvokeKnife" type="Node" parent="FSM"]
+script = ExtResource("6_xwnro")
+nextState = "MovingAround"
+
+[node name="MovingAround" type="Node" parent="FSM"]
+script = ExtResource("9_fjav0")
+
+[connection signal="area_entered" from="Hurtbox" to="Hurtbox" method="_on_area_entered"]

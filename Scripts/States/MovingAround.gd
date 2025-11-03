@@ -19,6 +19,7 @@ func Change():
 		count = 5
 	
 func Enter():
+	print("Entrou Moving")
 	randomizer_wander()
 
 func Update(delta: float):
@@ -26,7 +27,8 @@ func Update(delta: float):
 		wander_time -= delta
 	else:
 		randomizer_wander()
-	boss.tiro.position = GL.moveTiro(GL.getAngleToRight(boss.direction,boss.angle))
+	if boss.tiro:	
+		boss.tiro.position = GL.moveTiro(GL.getAngleToRight(boss.direction,boss.angle))
 		
 func PhysicsUpdate(_delta: float):
 	if boss and boss is CharacterBody2D:

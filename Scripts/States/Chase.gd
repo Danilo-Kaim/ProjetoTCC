@@ -8,6 +8,7 @@ func randomizer_wander():
 	if count <= 0:
 		Transitioned.emit(self,"Dash")
 	if boss and boss is CharacterBody2D:
+		print(boss.player)
 		boss.direction = (boss.player.position - boss.position).normalized()
 		await (Engine.get_main_loop() as SceneTree).process_frame
 		boss.tiro.position = GL.moveTiro(GL.getAngleToRight(boss.direction,boss.angle))

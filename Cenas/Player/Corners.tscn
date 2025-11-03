@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://c0fx3tsw5yi3b"]
 
-[ext_resource type="PackedScene" uid="uid://cwmptjpks7gyr" path="res://Cenas/Templates/PlayerTemplate.tscn" id="1_f2ydo"]
+[ext_resource type="PackedScene" uid="uid://cwmptjpks7gyr" path="res://Cenas/Templates/RobotTemplate.tscn" id="1_f2ydo"]
 [ext_resource type="Script" path="res://Scripts/Entidades/Players/Corners.gd" id="2_6jo6d"]
 [ext_resource type="Texture2D" uid="uid://b1m5v0o1xn0da" path="res://Assets/icon.svg" id="2_b8dsd"]
 [ext_resource type="PackedScene" uid="uid://c3yubj58oodqx" path="res://Cenas/Resources/HealthComponent.tscn" id="3_ujwtu"]
